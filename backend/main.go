@@ -6,10 +6,15 @@ import (
 )
 
 func main() {
-	fs := http.FileServer(http.Dir("../frontend/static"))
-	http.Handle("/", fs)
+	http.HandleFunc("/api", handler)
 
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(":4000", nil); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("<h1>Hello, World from Go Server!</h1>"))
 }

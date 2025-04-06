@@ -1,0 +1,17 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend-server
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./frontend/dist:/var/www/html
+  
+  backend-server:
+    build:
+      context: ./backend
+      dockerfile: dockerfile
+    expose:
+      - "4000"
