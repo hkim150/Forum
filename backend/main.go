@@ -1,12 +1,15 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
+
+	"golang.org/x/tools/go/analysis/passes/nilfunc"
 )
 
 func main() {
-	http.HandleFunc("/api", handler)
+	http.HandleFunc("/api/data", handler)
 
 	if err := http.ListenAndServe(":4000", nil); err != nil {
 		log.Fatal(err)
@@ -14,7 +17,13 @@ func main() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("<h1>Hello, World from Go Server!</h1>"))
+
+	data := "TODO: add data struct"
+
+	encoder := json.NewEncoder(w)
+	if err := encoder.Encode(data); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
