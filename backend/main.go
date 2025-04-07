@@ -2,17 +2,24 @@ package main
 
 import (
 	"encoding/json"
+	"forum/db"
 	"log"
 	"net/http"
-
-	"golang.org/x/tools/go/analysis/passes/nilfunc"
 )
 
 func main() {
+	db, err := db.Open()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	defer db.Close()
+
 	http.HandleFunc("/api/data", handler)
 
 	if err := http.ListenAndServe(":4000", nil); err != nil {
 		log.Fatal(err)
+		return
 	}
 }
 
