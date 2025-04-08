@@ -2,27 +2,16 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
+	"os"
 
 	_ "github.com/lib/pq"
 )
 
-const (
-	dbms     = "postgres"
-	host     = "db"
-	port     = 5432
-	user     = "user"
-	password = "password"
-	dbname   = "forum"
-)
-
 func Open() (*sql.DB, error) {
-	psqlInfo := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname,
-	)
+	dbms := os.Getenv("DBMS")
+	dbUrl := os.Getenv("DB_URL")
 
-	db, err := sql.Open(dbms, psqlInfo)
+	db, err := sql.Open(dbms, dbUrl)
 	if err != nil {
 		return nil, err
 	}

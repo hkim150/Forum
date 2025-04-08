@@ -32,8 +32,8 @@ services:
       POSTGRES_DB: forum
     restart: always
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "user"]
-      interval: 1s
+      test: ["CMD", "pg_isready", "-d", "postgres", "-U", "user"]
+      interval: 2s
       timeout: 1s
       retries: 10
     volumes:

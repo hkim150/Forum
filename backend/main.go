@@ -5,9 +5,17 @@ import (
 	"forum/db"
 	"log"
 	"net/http"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+		return
+	}
+
 	db, err := db.Open()
 	if err != nil {
 		log.Fatal(err)
