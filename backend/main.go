@@ -30,11 +30,14 @@ func main() {
 	createPostHandler := post.NewCreatePostHandler(postService)
 
 	router := http.NewServeMux()
-	router.Handle("POST /api/posts", createPostHandler)
+	router.Handle("POST /posts", createPostHandler)
+
+	api := http.NewServeMux()
+	api.Handle("/api/", http.StripPrefix("/api", router))
 
 	server := &http.Server{
 		Addr:    ":4000",
-		Handler: router,
+		Handler: api,
 	}
 
 	if err := server.ListenAndServe(); err != nil {
