@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"sync"
 )
 
@@ -27,14 +26,12 @@ func (r *PostRepository) Create(ctx context.Context, params PostRepositoryCreate
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
 
-	// query := `INSERT INTO posts (title, content) VALUES ($1, $2) RETURNING id`
-	// var id int32
-	// err := r.db.QueryRowContext(ctx, query, params.Title, params.Content).Scan(&id)
-	// if err != nil {
-	// 	return 0, err
-	// }
+	query := `INSERT INTO posts (title, content) VALUES ($1, $2) RETURNING id`
+	var id int32
+	err := r.db.QueryRowContext(ctx, query, params.Title, params.Content).Scan(&id)
+	if err != nil {
+		return 0, err
+	}
 
-	// return int(id), nil
-	fmt.Println("Creating post with title:", params.Title, "and content:", params.Content)
-	return 0, nil
+	return int(id), nil
 }

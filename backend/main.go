@@ -30,7 +30,7 @@ func main() {
 	createPostHandler := post.NewCreatePostHandler(postService)
 
 	router := http.NewServeMux()
-	router.Handle("POST /posts", createPostHandler)
+	router.Handle("POST /api/posts", createPostHandler)
 
 	server := &http.Server{
 		Addr:    ":4000",

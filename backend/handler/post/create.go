@@ -21,10 +21,6 @@ type CreatePostParams struct {
 	Content string `json:"content"`
 }
 
-func (h *CreatePostHandler) Pattern() string {
-	return "POST /posts"
-}
-
 func (h *CreatePostHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	params := CreatePostParams{}
 	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
