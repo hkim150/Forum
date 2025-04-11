@@ -1,8 +1,10 @@
 package main
 
 import (
-	"encoding/json"
 	"forum/db"
+	"forum/handler/post"
+	"forum/repository"
+	"forum/service"
 	"log"
 	"net/http"
 
@@ -12,33 +14,31 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal("Error loading .env file: ", err)
 		return
 	}
 
-	db, err := db.Open()
+	db, err := db.NewDb()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Error connecting to the database: ", err)
 		return
 	}
 	defer db.Close()
 
-	http.HandleFunc("/api/data", handler)
+	postRepository := repository.NewPostRepository(db)
+	postService := service.NewPostService(postRepository)
+	createPostHandler := post.NewCreatePostHandler(postService)
 
-	if err := http.ListenAndServe(":4000", nil); err != nil {
-		log.Fatal(err)
-		return
+	router := http.NewServeMux()
+	router.Handle("POST /posts", createPostHandler)
+
+	server := &http.Server{
+		Addr:    ":4000",
+		Handler: router,
 	}
-}
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-
-	data := "TODO: add data struct"
-
-	encoder := json.NewEncoder(w)
-	if err := encoder.Encode(data); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	if err := server.ListenAndServe(); err != nil {
+		log.Fatal("Error starting server: ", err)
+		return
 	}
 }
