@@ -2,9 +2,6 @@ package main
 
 import (
 	"forum/db"
-	"forum/handler/post"
-	"forum/repository"
-	"forum/service"
 	"log"
 	"net/http"
 
@@ -25,12 +22,16 @@ func main() {
 	}
 	defer db.Close()
 
-	postRepository := repository.NewPostRepository(db)
-	postService := service.NewPostService(postRepository)
-	createPostHandler := post.NewCreatePostHandler(postService)
+	listPostHandler := InitializeListPostHandler(db)
+	getPostHandler := InitializeGetPostHandler(db)
+	createPostHandler := InitializeCreatePostHandler(db)
+	deletePostHandler := InitializeDeletePostHandler(db)
 
 	router := http.NewServeMux()
+	router.Handle("GET /posts", listPostHandler)
+	router.Handle("GET /posts/{id}", getPostHandler)
 	router.Handle("POST /posts", createPostHandler)
+	router.Handle("DELETE /posts/{id}", deletePostHandler)
 
 	api := http.NewServeMux()
 	api.Handle("/api/", http.StripPrefix("/api", router))
