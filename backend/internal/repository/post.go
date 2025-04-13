@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"forum/model"
+	"forum/internal/model"
 	"sync"
 )
 

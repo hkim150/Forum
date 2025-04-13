@@ -7,7 +7,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func NewDb() (*sql.DB, error) {
+func Open() (*sql.DB, error) {
 	dbms := os.Getenv("DBMS")
 	dbUrl := os.Getenv("DB_URL")
 

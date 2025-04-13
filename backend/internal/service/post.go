@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"forum/model"
-	"forum/repository"
+	"forum/internal/model"
+	"forum/internal/repository"
 )
 
 type PostService struct {

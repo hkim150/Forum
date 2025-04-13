@@ -1,7 +1,7 @@
 package post
 
 import (
-	"forum/service"
+	"forum/internal/service"
 	"net/http"
 	"strconv"
 )

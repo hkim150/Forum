@@ -1,13 +1,13 @@
-//go:build wireinject
+// go:build wireinject
 // +build wireinject
 
-package main
+package server
 
 import (
 	"database/sql"
-	"forum/handler/post"
-	"forum/repository"
-	"forum/service"
+	"forum/internal/handler/post"
+	"forum/internal/repository"
+	"forum/internal/service"
 
 	"github.com/google/wire"
 )

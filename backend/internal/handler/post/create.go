@@ -2,7 +2,7 @@ package post
 
 import (
 	"encoding/json"
-	"forum/service"
+	"forum/internal/service"
 	"net/http"
 )
 
