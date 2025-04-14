@@ -36,6 +36,13 @@ func InitializeCreatePostHandler(db *sql.DB) *post.CreatePostHandler {
 	return createPostHandler
 }
 
+func InitializeUpdatePostHandler(db *sql.DB) *post.UpdatePostHandler {
+	postRepository := repository.NewPostRepository(db)
+	postService := service.NewPostService(postRepository)
+	updatePostHandler := post.NewUpdatePostHandler(postService)
+	return updatePostHandler
+}
+
 func InitializeDeletePostHandler(db *sql.DB) *post.DeletePostHandler {
 	postRepository := repository.NewPostRepository(db)
 	postService := service.NewPostService(postRepository)

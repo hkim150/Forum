@@ -26,12 +26,14 @@ func Run(port string) {
 	listPostHandler := InitializeListPostHandler(db)
 	getPostHandler := InitializeGetPostHandler(db)
 	createPostHandler := InitializeCreatePostHandler(db)
+	updatePostHandler := InitializeUpdatePostHandler(db)
 	deletePostHandler := InitializeDeletePostHandler(db)
 
 	router := http.NewServeMux()
 	router.Handle("GET /posts", listPostHandler)
 	router.Handle("GET /posts/{id}", getPostHandler)
 	router.Handle("POST /posts", createPostHandler)
+	router.Handle("PUT /posts/{id}", updatePostHandler)
 	router.Handle("DELETE /posts/{id}", deletePostHandler)
 
 	subPath := http.NewServeMux()

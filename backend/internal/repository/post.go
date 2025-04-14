@@ -18,18 +18,13 @@ func NewPostRepository(db *sql.DB) *PostRepository {
 	}
 }
 
-type PostRepositoryCreateParams struct {
-	Title   string
-	Content string
-}
-
 func (r *PostRepository) List(ctx context.Context, limit, offset int) ([]*model.Post, error) {
 	query := `SELECT id, title, content, created_at, updated_at FROM post ORDER BY created_at DESC LIMIT $1 OFFSET $2`
 	rows, err := r.db.QueryContext(ctx, query, limit, offset)
 	if err != nil {
 		return nil, err
 	}
-	
+
 	var posts []*model.Post
 	for rows.Next() {
 		var post model.Post
@@ -39,12 +34,12 @@ func (r *PostRepository) List(ctx context.Context, limit, offset int) ([]*model.
 		}
 		posts = append(posts, &post)
 	}
-	
+
 	rows.Close()
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
-	
+
 	return posts, nil
 }
 
@@ -62,6 +57,11 @@ func (r *PostRepository) Get(ctx context.Context, id int) (*model.Post, error) {
 	return &post, nil
 }
 
+type PostRepositoryCreateParams struct {
+	Title   string
+	Content string
+}
+
 func (r *PostRepository) Create(ctx context.Context, params PostRepositoryCreateParams) (int, error) {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
@@ -74,6 +74,22 @@ func (r *PostRepository) Create(ctx context.Context, params PostRepositoryCreate
 	}
 
 	return int(id), nil
+}
+
+type PostRepositoryUpdateParams struct {
+	Id      int
+	Title   string
+	Content string
+}
+
+func (r *PostRepository) Update(ctx context.Context, params PostRepositoryUpdateParams) error {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
+
+	query := `UPDATE post SET title = $1, content = $2 WHERE id = $3`
+	_, err := r.db.ExecContext(ctx, query, params.Title, params.Content, params.Id)
+
+	return err
 }
 
 func (r *PostRepository) Delete(ctx context.Context, id int) error {

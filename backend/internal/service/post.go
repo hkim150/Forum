@@ -35,6 +35,14 @@ func (s *PostService) Create(ctx context.Context, title, content string) (int, e
 	})
 }
 
+func (s *PostService) Update(ctx context.Context, id int, title, content string) error {
+	return s.repository.Update(ctx, repository.PostRepositoryUpdateParams{
+		Id:      id,
+		Title:   title,
+		Content: content,
+	})
+}
+
 func (s *PostService) Delete(ctx context.Context, id int) error {
 	return s.repository.Delete(ctx, id)
 }
