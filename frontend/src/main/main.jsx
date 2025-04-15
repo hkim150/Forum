@@ -13,10 +13,18 @@ function Main() {
             .catch(error => console.error("Error fetching data:", error))
     }, []);
 
+    const handleDelete = (id) => {
+        axios.delete(`${import.meta.env.VITE_BACKEND_API_URL}/posts${id}`)
+            .then(() => {
+                setPosts(posts.filter(post => post.Id !== id));
+            })
+            .catch(error => console.error("Error deleting post:", error));
+    }
+
     return (
         <>
             <button onClick={() => navigate("/create-post")}>Create Post</button>
-            <PostTable posts={posts}/>
+            <PostTable posts={posts} onDelete={handleDelete}/>
         </>
     );
 }
