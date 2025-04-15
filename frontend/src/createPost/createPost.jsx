@@ -9,7 +9,7 @@ function CreatePost() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8080/api/v1/posts", {title, content})
+        axios.post(`${import.meta.env.VITE_BACKEND_API_URL}/posts`, {title, content})
             .then(() => navigate("/"))
             .catch(error => console.error("Error creating post:", error));
     };

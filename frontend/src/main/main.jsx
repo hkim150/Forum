@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PostTable from "../components/postTable";
+import PostTable from "../components/PostTable";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -8,7 +8,7 @@ function Main() {
     const navigate = useNavigate();
     
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/posts")
+        axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/posts`)
             .then(response => setPosts(response.data))
             .catch(error => console.error("Error fetching data:", error))
     }, []);

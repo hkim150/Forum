@@ -8,7 +8,7 @@ function PostContent() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/v1/posts/${id}`)
+        axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/posts${id}`)
             .then(response => setPost(response.data))
             .catch(error => console.error("Error fetching post:", error));
     }, [id]);
