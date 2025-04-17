@@ -22,7 +22,8 @@ function PostContentDetail() {
             <h2>{post.Title}</h2>
             <p>{post.Content}</p>
             <p><strong>Created At:</strong> {post.CreatedAt}</p>
-            <button onClick={() => navigate(-1)}>Go Back</button>
+            <button onClick={() => navigate(`/`)}>Go Back</button>
+            <button onClick={() => navigate(`/edit-post/${id}`)}>Edit</button>
         </div>
     );
 }
