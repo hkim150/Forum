@@ -1,7 +1,7 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Main from './main/main'
-import PostContent from './postContent/postContent'
+import PostContentDetail from './postContentDetail/postContentDetail'
 import CreatePost from './createPost/createPost'
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/posts/:id" element={<PostContent />} />
+        <Route path="/posts/:id" element={<PostContentDetail />} />
         <Route path="/create-post" element={<CreatePost />} />
       </Routes>
     </Router>

@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function PostContent() {
+function PostContentDetail() {
     const { id } = useParams();
     const [post, setPost] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/posts${id}`)
+        axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/posts/${id}`)
             .then(response => setPost(response.data))
             .catch(error => console.error("Error fetching post:", error));
     }, [id]);
@@ -27,4 +27,4 @@ function PostContent() {
     );
 }
 
-export default PostContent;
+export default PostContentDetail;
